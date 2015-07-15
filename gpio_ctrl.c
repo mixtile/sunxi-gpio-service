@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2015 Focalcrest, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
 #include "gpio_ctrl.h"
 #include "gpio_defs.h"
 
@@ -154,7 +138,7 @@ int8_t gpio_ctrl_unexport(int id)
         GPIO_CTRL_DEBUG("sunxi gpio export failed! not inited! \n");
         return -1;
     }
-    GPIO_CTRL_DEBUG("sunxi gpio export %s \n", id);
+    GPIO_CTRL_DEBUG("sunxi gpio export %d \n", id);
 
     snprintf(id_str, 8, "%d", id);
 
@@ -173,7 +157,7 @@ int8_t gpio_ctrl_enable_out(int id)
         return -1;
     }
 
-    GPIO_CTRL_DEBUG("sunxi gpio enable out %s \n", id);
+    GPIO_CTRL_DEBUG("sunxi gpio enable out %d \n", id);
 
     snprintf(pdc->path_buf, sizeof(pdc->path_buf), "%s/gpio%d/direction", SYS_GPIO_PATH, id);
 
@@ -202,7 +186,7 @@ int8_t gpio_ctrl_enable_in(int id)
         return -1;
     }
 
-    GPIO_CTRL_DEBUG("sunxi gpio enable out %s \n", id);
+    GPIO_CTRL_DEBUG("sunxi gpio enable in %d \n", id);
 
     snprintf(pdc->path_buf, sizeof(pdc->path_buf), "%s/gpio%d/direction", SYS_GPIO_PATH, id);
 
@@ -232,7 +216,7 @@ int8_t gpio_ctrl_set_out(int id, int bon)
         return -1;
     }
 
-    GPIO_CTRL_DEBUG("sunxi gpio set out %s to %d \n", id, bon);
+    GPIO_CTRL_DEBUG("sunxi gpio set out %d to %d \n", id, bon);
 
     snprintf(pdc->path_buf, sizeof(pdc->path_buf), "%s/gpio%d/value", SYS_GPIO_PATH, id);
 

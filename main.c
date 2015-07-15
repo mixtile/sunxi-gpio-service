@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2015 Focalcrest, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
 #include "gpio_defs.h"
 #include "gpio_ctrl.h"
 #include "gpio_srv.h"
@@ -28,7 +12,7 @@
 static int gpio_main_srv_handle(void* para, void* data)
 {
     int ret = 0;
-    char resp[2] = {0, 0};
+    static char resp[2] = {0, 0};
     char* msg = (char*)para;
     int len = *(int*)data;
 
@@ -61,7 +45,7 @@ static int gpio_main_srv_handle(void* para, void* data)
                 break;
             case GPIO_CMD_READ:
                 GPIO_MAIN_DEBUG("read gpio %d", gpio);
-                //ret = gpio_ctrl_get_in(gpio);
+                ret = gpio_ctrl_get_in(gpio);
                 break;
             default:
                 ret = -1;
@@ -76,6 +60,29 @@ static int gpio_main_srv_handle(void* para, void* data)
     return 0;
 }
 
+int serv_daemon()
+{
+    pid_t pid;
+
+    pid = fork();
+
+    if(pid == -1)
+    {
+        printf("fork error\n");
+    }
+
+    if(setsid() == -1)
+    {
+        printf("setsid error\n");
+    }
+
+    chdir("/");
+
+    umask(0);
+
+    return 0;
+}
+
 int main()
 {
     int ret = 0;
@@ -86,6 +93,8 @@ int main()
         .msg_func = gpio_main_srv_handle,
         .mode = 1,
     };
+
+    //serv_daemon();
 
     gpio_ctrl_init();
 

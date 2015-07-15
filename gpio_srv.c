@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2015 Focalcrest, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -95,7 +79,7 @@ static void gpio_srv_destroy(void)
 
     pthread_mutex_destroy(&gpdc->mutex);
 
-    if(0 != gpdc->server_socket && -1 != gpdc->server_socket)
+    if(0 != gpdc->server_socket)
     {
         close(gpdc->server_socket);
     }
@@ -235,27 +219,18 @@ int gpio_srv_process(void)
 
             gpdc->client_socket = accept(gpdc->server_socket, (struct sockaddr *)&gpdc->client_addr, &gpdc->client_len);
 
-            while(1)
-            {
-                recv_size = read(gpdc->client_socket, gpdc->buffer, sizeof(gpdc->buffer));
+            recv_size = read(gpdc->client_socket, gpdc->buffer, sizeof(gpdc->buffer));
 
-                if(-1 == recv_size || 0 == recv_size)
+            if(recv_size > 0)
+            {
+                util_debug_raw_hex(gpdc->buffer, recv_size);
+                if(NULL != gpdc->para.msg_func)
                 {
-                    GPIO_SRV_DEBUG("srv socket recvfrom failed!");
-                    break;
-                }
-                else
-                {
-                    util_debug_raw_hex(gpdc->buffer, recv_size);
-                    if(NULL != gpdc->para.msg_func)
-                    {
-                        gpdc->para.msg_func(gpdc->buffer, &recv_size);
-                    }
+                    gpdc->para.msg_func(gpdc->buffer, &recv_size);
                 }
             }
 
             close(gpdc->client_socket);
-            gpdc->client_socket = 0;
         }
     }
 }

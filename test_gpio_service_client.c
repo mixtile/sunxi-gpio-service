@@ -32,7 +32,7 @@ int main(void)
 {
     socklen_t length = 0;
 
-    #ifdef ILK_ANDROID
+    #ifdef GPIO_ANDROID
     char ser_name[] = "/dev/socket/mixtile.gpio_srv_port";
     #else
     char ser_name[] = "./mixtile.gpio_srv_port";
@@ -57,6 +57,14 @@ int main(void)
     _send_cmd(client, (struct sockaddr *)&server_addr, length, 'E', 12, 0);
 
     _send_cmd(client, (struct sockaddr *)&server_addr, length, 'U', 12, 0);
+
+    _send_cmd(client, (struct sockaddr *)&server_addr, length, 'O', 12, 0);
+
+    _send_cmd(client, (struct sockaddr *)&server_addr, length, 'I', 12, 0);
+
+    _send_cmd(client, (struct sockaddr *)&server_addr, length, 'W', 12, 0);
+
+    _send_cmd(client, (struct sockaddr *)&server_addr, length, 'R', 12, 0);
 
     _send_cmd(client, (struct sockaddr *)&server_addr, length, 'U', 12, 0);
 
