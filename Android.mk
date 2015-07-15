@@ -1,0 +1,19 @@
+LOCAL_PATH:= $(call my-dir)
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES:= gpio_ctrl.c gpio_serv.c main.c 
+
+LOCAL_MODULE:= gpio-service 
+
+LOCAL_FORCE_STATIC_EXECUTABLE := true
+
+LOCAL_LDLIB += -lpthread
+
+LOCAL_CFLAGS    := -DGPIO_ANDROID -DSUNXI_A31
+
+LOCAL_STATIC_LIBRARIES := libc 
+
+LOCAL_MODULE_PATH := $(TARGET_OUT_EXECUTABLES)
+LOCAL_MODULE_TAGS := debug
+
+include $(BUILD_EXECUTABLE)
