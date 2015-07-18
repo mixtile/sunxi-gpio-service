@@ -257,7 +257,7 @@ int8_t gpio_ctrl_get_in(int id)
         read(fd, buf, 10);
         close(fd);
         GPIO_CTRL_DEBUG("sunxi gpio get in %s success! \n", pdc->path_buf);
-        return 0;
+        return atoi(buf);
     }
 
     GPIO_CTRL_DEBUG("sunxi gpio get in %s failed! \n", pdc->path_buf);
