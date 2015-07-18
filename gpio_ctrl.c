@@ -196,11 +196,11 @@ int8_t gpio_ctrl_enable_in(int id)
     {
         write(fd, "in", strlen("in"));
         close(fd);
-        GPIO_CTRL_DEBUG("sunxi gpio enable out %s success! \n", pdc->path_buf);
+        GPIO_CTRL_DEBUG("sunxi gpio enable in %s success! \n", pdc->path_buf);
         return 0;
     }
 
-    GPIO_CTRL_DEBUG("sunxi gpio enable out %s failed! \n", pdc->path_buf);
+    GPIO_CTRL_DEBUG("sunxi gpio enable in %s failed! \n", pdc->path_buf);
 
 
     return -1;
@@ -256,11 +256,11 @@ int8_t gpio_ctrl_get_in(int id)
     {
         read(fd, buf, 10);
         close(fd);
-        GPIO_CTRL_DEBUG("sunxi gpio set out %s success! \n", pdc->path_buf);
+        GPIO_CTRL_DEBUG("sunxi gpio get in %s success! \n", pdc->path_buf);
         return 0;
     }
 
-    GPIO_CTRL_DEBUG("sunxi gpio set out %s failed! \n", pdc->path_buf);
+    GPIO_CTRL_DEBUG("sunxi gpio get in %s failed! \n", pdc->path_buf);
 
 
     return -1;

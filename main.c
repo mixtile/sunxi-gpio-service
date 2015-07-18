@@ -37,7 +37,7 @@ static int gpio_main_srv_handle(void* para, void* data)
                 break;
             case GPIO_CMD_ENABLE_IN:
                 GPIO_MAIN_DEBUG("enable gpio in %d", gpio);
-                ret = gpio_ctrl_enable_out(gpio);
+                ret = gpio_ctrl_enable_in(gpio);
                 break;
             case GPIO_CMD_WRITE:
                 GPIO_MAIN_DEBUG("write gpio %d to %d", gpio, set_value);
